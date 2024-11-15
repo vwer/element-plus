@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -25,6 +24,9 @@ import { useMutationObserver } from '@vueuse/core'
 import { ensureArray } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey } from './token'
+import type { VNode } from 'vue'
+
+import type { OptionPublicInstance } from './type'
 
 export default defineComponent({
   name: 'ElOptionGroup',
@@ -43,8 +45,8 @@ export default defineComponent({
   setup(props) {
     const ns = useNamespace('select')
     const groupRef = ref(null)
-    const instance = getCurrentInstance()
-    const children = ref([])
+    const instance = getCurrentInstance()!
+    const children = ref<OptionPublicInstance[]>([])
 
     provide(
       selectGroupKey,
@@ -57,7 +59,9 @@ export default defineComponent({
       children.value.some((option) => option.visible === true)
     )
 
-    const isOption = (node) =>
+    const isOption = (
+      node: VNode
+    ): node is VNode & { component: OptionPublicInstance } =>
       node.type?.name === 'ElOption' && !!node.component?.proxy
 
     // get all instances of options
