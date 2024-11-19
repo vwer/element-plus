@@ -3,7 +3,7 @@
     class="mb-4"
     style="max-width: 600px"
     :space="200"
-    :active="1"
+    :active="2"
     simple
   >
     <el-step title="Step 1" :icon="Edit" />
